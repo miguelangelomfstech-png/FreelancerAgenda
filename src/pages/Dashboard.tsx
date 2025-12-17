@@ -99,9 +99,9 @@ function NavButton({ children, active, onClick, icon }: any) {
     <button
       onClick={onClick}
       className={clsx(
-        'inline-flex items-center px-4 py-2 text-sm font-bold rounded-xl transition-all active:scale-95',
+        'inline-flex items-center px-4 py-2.5 text-sm font-bold rounded-xl transition-all duration-300 active:scale-95',
         active 
-          ? 'text-white bg-white/10 shadow-sm' 
+          ? 'text-white bg-white/15 shadow-inner backdrop-blur-sm' 
           : 'text-blue-100 hover:text-white hover:bg-white/5'
       )}
     >

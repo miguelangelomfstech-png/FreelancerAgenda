@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useStore } from '../context/StoreContext';
+import { useStore, StoreProvider } from '../context/StoreContext';
 import { format, addDays, startOfToday, isSameDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import type { Service, Appointment } from '../types';
@@ -11,7 +11,8 @@ import { clsx } from 'clsx';
 // Using a simpler horizontal date picker or standard date input for simplicity in this wizard.
 // Or just a grid of next 14 days.
 
-export function BookingPage() {
+// Internal component with the logic
+function BookingPageContent() {
   const { services, addAppointment, appointments } = useStore();
   const [step, setStep] = useState(1);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
@@ -226,4 +227,29 @@ export function BookingPage() {
       </div>
     </div>
   );
+}
+
+// Wrapper to handle URL params and context
+export function BookingPage() {
+    const [searchParams] = useState(new URLSearchParams(window.location.search));
+    const uid = searchParams.get('uid');
+
+    if (!uid) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <p className="text-red-500">Erro: Link de agendamento inválido. Precisa de um ID de profissional.</p>
+            </div>
+        );
+    }
+
+    // We can fetch user name here if we want to show "Agendar com [Nome]" using AuthContext's getUserById
+    // But for now let's just show the scheduler.
+    // Note: StoreProvider needs to be imported from StoreContext but I need to make sure I import it at top.
+    
+    // Lazy solution for imports: I will add StoreProvider import at top if missing.
+    return (
+        <StoreProvider userId={uid}>
+            <BookingPageContent />
+        </StoreProvider>
+    );
 }

@@ -1,14 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ServiceList } from '../components/ServiceList';
 import { CalendarView } from '../components/CalendarView';
 import { Notifications } from '../components/Notifications';
-import { LayoutGrid, Calendar as CalendarIcon } from 'lucide-react';
-import { clsx } from 'clsx'; // Keeping clsx as used in NavButton locally or use twMerge if preferred
+import { LayoutGrid, Calendar as CalendarIcon, LogOut, Link as LinkIcon } from 'lucide-react';
+import { clsx } from 'clsx';
+import { useAuth } from '../context/AuthContext';
+import { StoreProvider } from '../context/StoreContext';
+import { useNavigate } from 'react-router-dom';
 
 export function Dashboard() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'services' | 'calendar'>('services');
 
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
+
+  if (!user) return null;
+
+  const bookingLink = `${window.location.protocol}//${window.location.host}/book?uid=${user.id}`;
+  
+  const copyLink = () => {
+    navigator.clipboard.writeText(bookingLink);
+    alert('Link copiado!');
+  }
+
   return (
+    <StoreProvider userId={user.id}>
     <div className="min-h-screen bg-gray-50">
       {/* Sidebar / Navigation */}
       <nav className="bg-white border-b border-gray-200 sticky top-0 z-10">
@@ -35,10 +56,22 @@ export function Dashboard() {
                 </NavButton>
               </div>
             </div>
-            <div className="flex items-center">
-              <span className="text-sm text-gray-500 mr-4">Olá, Profissional</span>
-              <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-700 font-bold">
-                P
+            <div className="flex items-center gap-4">
+              <button onClick={copyLink} className="hidden md:flex items-center text-sm text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full hover:bg-indigo-100 transition-colors">
+                 <LinkIcon size={14} className="mr-2"/>
+                 Link de Agendamento
+              </button>
+              
+              <div className="h-6 w-px bg-gray-200 hidden md:block"></div>
+
+              <div className="flex items-center">
+                <span className="text-sm text-gray-700 mr-3 hidden sm:inline">{user.name}</span>
+                <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-700 font-bold">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <button onClick={logout} className="ml-4 text-gray-400 hover:text-red-500 transition-colors" title="Sair">
+                    <LogOut size={20} />
+                </button>
               </div>
             </div>
           </div>
@@ -51,6 +84,7 @@ export function Dashboard() {
         <Notifications />
       </main>
     </div>
+    </StoreProvider>
   );
 }
 

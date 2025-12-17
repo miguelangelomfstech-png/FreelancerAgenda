@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useStore } from '../context/StoreContext';
-import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import type { Service } from '../types';
 
@@ -31,6 +30,7 @@ export function ServiceForm({ onSuccess }: { onSuccess: () => void }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <Input
+        id="service-name"
         label="Nome do Serviço"
         value={formData.name}
         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -38,6 +38,7 @@ export function ServiceForm({ onSuccess }: { onSuccess: () => void }) {
         required
       />
       <Input
+        id="service-description"
         label="Descrição"
         value={formData.description}
         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -45,6 +46,7 @@ export function ServiceForm({ onSuccess }: { onSuccess: () => void }) {
       />
       <div className="grid grid-cols-2 gap-4">
         <Input
+          id="service-duration"
           label="Duração (min)"
           type="number"
           value={formData.duration}
@@ -52,6 +54,7 @@ export function ServiceForm({ onSuccess }: { onSuccess: () => void }) {
           required
         />
         <Input
+          id="service-price"
           label="Preço (R$)"
           type="number"
           step="0.01"
@@ -61,7 +64,12 @@ export function ServiceForm({ onSuccess }: { onSuccess: () => void }) {
         />
       </div>
       <div className="flex justify-end pt-4">
-        <Button type="submit">Salvar Serviço</Button>
+        <button
+        type="submit"
+        className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-md text-sm font-bold text-white bg-brand-gradient hover:opacity-90 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary"
+      >
+        Salvar Serviço
+      </button>
       </div>
     </form>
   );

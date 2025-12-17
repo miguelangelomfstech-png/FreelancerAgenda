@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useStore } from '../context/StoreContext';
 import { ServiceForm } from './ServiceForm';
 import { Modal } from './ui/Modal';
-import { Button } from './ui/Button';
 import { Trash2, Clock, DollarSign, Plus } from 'lucide-react';
 
 export function ServiceList() {
@@ -11,15 +10,18 @@ export function ServiceList() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between items-center bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">Meus Serviços</h2>
-          <p className="text-sm text-gray-500">Gerencie os serviços que você oferece.</p>
+          <h2 className="text-xl font-bold text-gray-900">Seus Serviços</h2>
+          <p className="text-sm text-gray-500">Gerencie o que você oferece aos seus clientes.</p>
         </div>
-        <Button onClick={() => setIsAddModalOpen(true)}>
-          <Plus size={18} className="mr-2" />
-          Novo Serviço
-        </Button>
+        <button
+          onClick={() => setIsAddModalOpen(true)}
+          className="flex items-center space-x-2 bg-brand-gradient text-white px-6 py-3 rounded-xl font-bold shadow-md hover:opacity-90 transition-all active:scale-95"
+        >
+          <Plus className="w-5 h-5" />
+          <span>Novo Serviço</span>
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

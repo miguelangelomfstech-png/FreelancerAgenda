@@ -13,10 +13,6 @@ const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
 
 
-const INITIAL_SERVICES: Service[] = [
-  { id: '1', name: 'Consultoria Rápida', description: 'Videochamada de 30min', duration: 30, price: 150 },
-  { id: '2', name: 'Projeto Completo', description: 'Planejamento e execução', duration: 120, price: 500 },
-];
 
 export const StoreProvider: React.FC<{ children: ReactNode; userId?: string }> = ({ children, userId }) => {
   // If a userId is not provided (e.g. public booking page might need one passed, or dashboard uses logged in user),
@@ -42,24 +38,22 @@ export const StoreProvider: React.FC<{ children: ReactNode; userId?: string }> =
     const savedServices = localStorage.getItem(storageKeyServices);
     const savedAppointments = localStorage.getItem(storageKeyAppointments);
 
-    setServices(savedServices ? JSON.parse(savedServices) : INITIAL_SERVICES);
+    setServices(savedServices ? JSON.parse(savedServices) : []);
     setAppointments(savedAppointments ? JSON.parse(savedAppointments) : []);
   }, [userId, storageKeyServices, storageKeyAppointments]);
 
   // Save data when it changes
   useEffect(() => {
-    if (storageKeyServices && services.length > 0) { // Don't overwrite with empty if initializing
-       // Actually we can overwrite if it's intentional, but here let's be safe.
-       // Better logic: we only write if we have a valid key.
+    if (storageKeyServices) {
        localStorage.setItem(storageKeyServices, JSON.stringify(services));
     }
-  }, [services, storageKeyServices]);
+  }, [services]);
 
   useEffect(() => {
     if (storageKeyAppointments) {
        localStorage.setItem(storageKeyAppointments, JSON.stringify(appointments));
     }
-  }, [appointments, storageKeyAppointments]);
+  }, [appointments]);
 
   const addService = (service: Service) => {
     setServices((prev) => [...prev, service]);

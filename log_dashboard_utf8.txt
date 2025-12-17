@@ -1,0 +1,35 @@
+﻿
+Running 1 test using 1 worker
+
+  Ô£ÿ  1 [chromium] ÔÇ║ tests\dashboard.spec.ts:14:3 ÔÇ║ Dashboard Management ÔÇ║ should add and delete a service (6.1s)
+
+
+  1) [chromium] ÔÇ║ tests\dashboard.spec.ts:14:3 ÔÇ║ Dashboard Management ÔÇ║ should add and delete a service 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).not.[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator:  locator('text=Test Service')
+    Expected: not visible
+    Received: visible
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - Expect "not toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('text=Test Service')[22m
+    [2m    9 ├ù locator resolved to <h3 class="font-semibold text-gray-900 line-clamp-1">Test Service</h3>[22m
+    [2m      - unexpected value "visible"[22m
+
+
+      30 |     // Delete
+      31 |     await page.click('button[title="Excluir servi├ºo"]');
+    > 32 |     await expect(page.locator('text=Test Service')).not.toBeVisible();
+         |                                                         ^
+      33 |   });
+      34 | });
+      35 |
+        at C:\Users\migue\git\FreelancerAgenda\tests\dashboard.spec.ts:32:57
+
+    Error Context: test-results\dashboard-Dashboard-Manage-97973-ld-add-and-delete-a-service-chromium\error-context.md
+
+  1 failed
+    [chromium] ÔÇ║ tests\dashboard.spec.ts:14:3 ÔÇ║ Dashboard Management ÔÇ║ should add and delete a service 

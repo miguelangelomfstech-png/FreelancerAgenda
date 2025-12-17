@@ -29,17 +29,20 @@ export function Dashboard() {
   }
 
   return (
-    <StoreProvider userId={user.id}>
+    <StoreProvider userId={user.id} key={user.id}>
     <div className="min-h-screen bg-gray-50">
       {/* Sidebar / Navigation */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <nav className="bg-brand-gradient border-b border-white/10 sticky top-0 z-10 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
-            <div className="flex items-center gap-8">
-              <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                AgendaPro
-              </span>
-              <div className="hidden md:flex space-x-4">
+            <div className="flex items-center space-x-3">
+              <img src="/brand/logowhite.png" alt="MFSTECHGROUP" className="h-10 w-auto" />
+              <div className="h-6 w-[1px] bg-white/20"></div>
+              <span className="text-xl font-bold text-white tracking-tight">Agenda</span>
+            </div>
+            
+            <div className="flex items-center space-x-6">
+              <div className="hidden md:flex space-x-2">
                 <NavButton 
                   active={activeTab === 'services'} 
                   onClick={() => setActiveTab('services')}
@@ -55,21 +58,24 @@ export function Dashboard() {
                   Calendário
                 </NavButton>
               </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <button onClick={copyLink} className="hidden md:flex items-center text-sm text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full hover:bg-indigo-100 transition-colors">
-                 <LinkIcon size={14} className="mr-2"/>
-                 Link de Agendamento
-              </button>
-              
-              <div className="h-6 w-px bg-gray-200 hidden md:block"></div>
 
-              <div className="flex items-center">
-                <span className="text-sm text-gray-700 mr-3 hidden sm:inline">{user.name}</span>
-                <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-700 font-bold">
+              <div className="h-6 w-px bg-white/20 hidden md:block"></div>
+
+              <div className="flex items-center space-x-3">
+                <div className="hidden sm:flex flex-col items-end">
+                  <span className="text-sm font-bold text-white">{user.name}</span>
+                  <button onClick={copyLink} className="text-[10px] text-blue-100 hover:text-white flex items-center transition-colors">
+                    <LinkIcon size={10} className="mr-1" /> Copiar Link
+                  </button>
+                </div>
+                <div className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center text-white font-bold shadow-inner">
                   {user.name.charAt(0).toUpperCase()}
                 </div>
-                <button onClick={logout} className="ml-4 text-gray-400 hover:text-red-500 transition-colors" title="Sair">
+                <button 
+                  onClick={logout} 
+                  className="p-2 text-blue-100 hover:text-white hover:bg-white/10 rounded-xl transition-all"
+                  title="Sair"
+                >
                     <LogOut size={20} />
                 </button>
               </div>
@@ -93,10 +99,10 @@ function NavButton({ children, active, onClick, icon }: any) {
     <button
       onClick={onClick}
       className={clsx(
-        'inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors',
+        'inline-flex items-center px-4 py-2 text-sm font-bold rounded-xl transition-all active:scale-95',
         active 
-          ? 'text-indigo-600 bg-indigo-50' 
-          : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
+          ? 'text-white bg-white/10 shadow-sm' 
+          : 'text-blue-100 hover:text-white hover:bg-white/5'
       )}
     >
       <span className="mr-2">{icon}</span>

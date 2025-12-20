@@ -23,11 +23,11 @@ test.describe('Enterprise CRM Functional Tests', () => {
     await page.goto('/dashboard/leads');
     await page.waitForLoadState('networkidle');
     
-    // Check main page heading
+    // Check main page heading (semantic h1)
     await expect(page.getByRole('heading', { name: 'Leads', level: 1 })).toBeVisible();
 
-    // Check card title (Shadcn CardTitle renders as generic text, not a semantic heading)
-    await expect(page.getByText('All Leads', { exact: true })).toBeVisible();
+    // Check card title (Now semantic h3 via CardTitle update)
+    await expect(page.getByRole('heading', { name: 'All Leads' })).toBeVisible();
     
     // Initial lead count (based on mock data)
     const rows = page.locator('tbody tr');

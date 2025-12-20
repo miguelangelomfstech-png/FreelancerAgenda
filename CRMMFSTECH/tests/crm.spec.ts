@@ -23,6 +23,10 @@ test.describe('Enterprise CRM Functional Tests', () => {
     await page.goto('/dashboard/leads');
     await page.waitForLoadState('networkidle');
     
+    // Check main page heading
+    await expect(page.getByRole('heading', { name: 'Leads', level: 1 })).toBeVisible();
+
+    // Check card title (Shadcn CardTitle renders as generic text, not a semantic heading)
     await expect(page.getByText('All Leads', { exact: true })).toBeVisible();
     
     // Initial lead count (based on mock data)
@@ -57,7 +61,8 @@ test.describe('Enterprise CRM Functional Tests', () => {
     await page.goto('/dashboard/admin/logs');
     await page.waitForLoadState('networkidle');
     
-    await expect(page.getByRole('heading', { name: 'Security Audit Logs' })).toBeVisible();
+    // Check main page heading
+    await expect(page.getByRole('heading', { name: 'Security Audit Logs', level: 1 })).toBeVisible();
     await expect(page.getByText('System Activity', { exact: true })).toBeVisible();
     
     // Check for specific log entries
@@ -70,10 +75,12 @@ test.describe('Enterprise CRM Functional Tests', () => {
     
     // Navigate to Leads
     await page.getByRole('link', { name: 'Leads' }).click();
+    await page.waitForLoadState('networkidle');
     await expect(page).toHaveURL(/\/dashboard\/leads/);
     
     // Navigate to Opportunities
     await page.getByRole('link', { name: 'Opportunities' }).click();
+    await page.waitForLoadState('networkidle');
     await expect(page).toHaveURL(/\/dashboard\/opportunities/);
     
     // Navigate back to Dashboard
